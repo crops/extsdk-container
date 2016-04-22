@@ -3,17 +3,6 @@ Extensible SDK Container
 This repo is to create an image that is able to setup and use an extensible
 sdk generated using openembedded-core.
 
-Building the container image
-----------------------------
-In order to build the container run in the directory containing the Dockerfile:
-
-```
-docker build -t local:extsdk .
-```
-
-The argument `-t` can be whatever you choose, but these instructions will
-assume that `-t local:extsdk` was used.
-
 Running the container
 ---------------------
 * **Determine the workdir**
@@ -32,12 +21,12 @@ Running the container
 
 * **The docker command**
 
-  Assuming you used the *workdir* and `-t local:extsdk` from above the command
+  Assuming you used the *workdir*` from above, the command
   to run a container for the first time would be:
 \
   ```
-  docker run --rm -it -v /home/myuser/workdir:/workdir local:extsdk --url \
-  http://someserver/extensible_sdk_installer.sh
+  docker run --rm -it -v /home/myuser/workdir:/workdir crops/extsdk-container \
+  --url http://someserver/extensible_sdk_installer.sh
   ```
   Let's discuss some of the options:
   * **_-v /home/myuser/workdir:/workdir_**: The default location of the workdir
@@ -76,7 +65,7 @@ Running the container
 
   So the following command:
   ```
-  docker run --rm -it -v /home/myuser/workdir:/workdir local:extsdk
+  docker run --rm -it -v /home/myuser/workdir:/workdir crops/extsdk-container
   ```
   on a previously setup workdir, should generate output similar to:
   ```
@@ -84,3 +73,15 @@ Running the container
   Run devtool --help for further details.
   [genericuser@2e42fa87f96c workdir]$
   ```
+
+Building the container image
+----------------------------
+If for some reason you want to build your own image rather than using the one
+on dockerhub, then run the command below in the directory containing the
+Dockerfile:
+
+```
+docker build -t crops/extsdk-container .
+```
+
+The argument to `-t` can be whatever you choose.
