@@ -24,42 +24,12 @@
 #
 # Since the extensible sdk can have various names, rename it to ./extsdk.sh
 # so that the Dockerfile can remain simple.
-FROM fedora:23
+FROM crops/yocto:fedora-23-base
 
-RUN dnf -y update && \
-    dnf -y install \
-        gawk \
-        make \
-        wget \
-        tar \
-        bzip2 \
-        gzip \
-        python \
-        unzip \
-        perl \
-        patch \
-        diffutils \
-        diffstat \
-        git \
-        cpp \
-        gcc \
-        gcc-c++ \
-        glibc-devel \
-        texinfo \
-        chrpath \
-        ccache \
-        perl-Data-Dumper \
-        perl-Text-ParseWords \
-        perl-Thread-Queue \
-        perl-bignum \
-        socat \
-        findutils \
-        which \
-        cpio \
-        SDL-devel \
-        file \
-        xz && \
-    dnf -y clean all
+USER root
+
+# We remove the user because we add a new one of our own
+RUN userdel -r yoctouser
 
 COPY usersetup.py esdk-launch.py esdk-entry.py /usr/bin/
 
