@@ -21,9 +21,9 @@ Running the container
 
 * **The docker command**
 
-  Assuming you used the *workdir*` from above, the command
+  Assuming you used the *workdir* from above, the command
   to run a container for the first time would be:
-\
+
   ```
   docker run --rm -it -v /home/myuser/workdir:/workdir crops/extsdk-container \
   --url http://someserver/extensible_sdk_installer.sh
