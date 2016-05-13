@@ -16,14 +16,6 @@
 #
 # ext sdk container
 #
-# This dockerfile is meant to create a container that contains an extensible
-# sdk that has already been "prepared."
-#
-# In order to use it, create a directory that contains both the extensible
-# sdk(created by "bitbake someimage -c populate_sdk_ext") and the Dockerfile.
-#
-# Since the extensible sdk can have various names, rename it to ./extsdk.sh
-# so that the Dockerfile can remain simple.
 FROM crops/yocto:debian-8-base
 
 USER root
