@@ -114,7 +114,7 @@ try:
 
     # Source the environment setup script and run bash
     cmd = 'bash -c'.split()
-    args = '. {}; cd {}; exec bash -l'.format(setupscript[0], args.workdir)
+    args = 'cd {}; . {}; exec bash -i'.format(args.workdir, setupscript[0])
     os.execvp(cmd[0], cmd + [args])
 
 except EsdkLaunchError as e:
