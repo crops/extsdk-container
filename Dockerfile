@@ -24,7 +24,7 @@
 #
 # Since the extensible sdk can have various names, rename it to ./extsdk.sh
 # so that the Dockerfile can remain simple.
-FROM crops/yocto:fedora-23-base
+FROM crops/yocto:debian-8-base
 
 USER root
 
@@ -33,7 +33,7 @@ USER root
 # after usermod has been ran.
 RUN userdel -r yoctouser && \
     useradd -U -m -o -u 1000 sdkuser && \
-    dnf -y install sudo && \
+    apt-get -y install sudo && \
     echo "#include /etc/sudoers.usersetup" >> /etc/sudoers
 
 COPY usersetup.py esdk-launch.py esdk-entry.py restrict_usermod.sh /usr/bin/
