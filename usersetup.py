@@ -25,11 +25,14 @@ import sys
 parser = argparse.ArgumentParser()
 
 parser.add_argument("--uid", type=int,
-                    help="uid to use for the user added. If not specified, "
+                    help="uid to use for the user. If not specified, "
                          "the uid of the owner of WORKDIR is used")
 
 parser.add_argument("--username", default="genericuser",
-                    help="username to use for the user added")
+                    help="username of the user to be modified")
+
+parser.add_argument("--sudo_uid", default=1000, type=int,
+                    help="uid to use when using sudo to exec \"cmd\"")
 
 parser.add_argument("--workdir", default="/workdir",
                     help="Directory to base the uid on")
@@ -46,10 +49,11 @@ if not args.uid:
     # Use the owner of the workdir for the uid if the uid isn't specified
     args.uid = st.st_uid
 
-cmd = "useradd -U -m {} -o -u {}".format(args.username, args.uid)
+cmd = "sudo restrict_usermod.sh {} {}".format(args.uid, args.username)
+
 subprocess.check_call(cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
 
 usercmd = "{} {}".format(args.cmd, " ".join(args.args))
 
-cmd = "su {} --session-command ".format(args.username).split()
-os.execvp(cmd[0], cmd + [usercmd])
+cmd = ("sudo -u #{} ".format(args.sudo_uid) + usercmd).split()
+os.execvp(cmd[0], cmd)

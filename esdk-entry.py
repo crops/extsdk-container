@@ -40,6 +40,7 @@ if args.url:
 else:
     urlarg = ""
 
-cmd = "usersetup.py --workdir={} esdk-launch.py {} --workdir={}"
+cmd = """usersetup.py --username=sdkuser --workdir={} esdk-launch.py {} """\
+      """--workdir={}"""
 cmd = cmd.format(args.workdir, urlarg, args.workdir).split()
 os.execvp(cmd[0], cmd)

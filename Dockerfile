@@ -28,9 +28,15 @@ FROM crops/yocto:fedora-23-base
 
 USER root
 
-# We remove the user because we add a new one of our own
-RUN userdel -r yoctouser
+# We remove the user because we add a new one of our own.
+# Set sdkuser to 1000 so that we can use a known uid in sudoers for
+# after usermod has been ran.
+RUN userdel -r yoctouser && \
+    useradd -U -m -o -u 1000 sdkuser && \
+    dnf -y install sudo && \
+    echo "#include /etc/sudoers.usersetup" >> /etc/sudoers
 
-COPY usersetup.py esdk-launch.py esdk-entry.py /usr/bin/
+COPY usersetup.py esdk-launch.py esdk-entry.py restrict_usermod.sh /usr/bin/
+COPY sudoers.usersetup /etc
 
 ENTRYPOINT ["esdk-entry.py"]
