@@ -31,9 +31,6 @@ parser.add_argument("--uid", type=int,
 parser.add_argument("--username", default="genericuser",
                     help="username of the user to be modified")
 
-parser.add_argument("--sudo_uid", default=1000, type=int,
-                    help="uid to use when using sudo to exec \"cmd\"")
-
 parser.add_argument("--workdir", default="/workdir",
                     help="Directory to base the uid on")
 
@@ -49,11 +46,11 @@ if not args.uid:
     # Use the owner of the workdir for the uid if the uid isn't specified
     args.uid = st.st_uid
 
-cmd = "sudo restrict_usermod.sh {} {}".format(args.uid, args.username)
+cmd = "sudo restrict_useradd.sh {} {}".format(args.uid, args.username)
 
 subprocess.check_call(cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
 
 usercmd = "{} {}".format(args.cmd, " ".join(args.args))
 
-cmd = ("sudo -u #{} ".format(args.sudo_uid) + usercmd).split()
+cmd = ("sudo -u {} ".format(args.username) + usercmd).split()
 os.execvp(cmd[0], cmd)

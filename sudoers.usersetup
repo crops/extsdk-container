@@ -1,7 +1,2 @@
-sdkuser ALL=NOPASSWD: /usr/bin/restrict_useradd.sh
-sdkuser ALL=NOPASSWD: /usr/bin/restrict_usermod.sh
-
-# We use the numeric id here, because after the usermod, the effective uid of
-# the usersetup.py process will still be the old uid. And of course the old id
-# will not match the username in /etc/passwd.
-#1000 ALL = (sdkuser) NOPASSWD: /usr/bin/toaster-launch.py
+usersetup ALL=NOPASSWD: /usr/bin/restrict_useradd.sh
+usersetup ALL = (sdkuser) NOPASSWD: /usr/bin/esdk-launch.py

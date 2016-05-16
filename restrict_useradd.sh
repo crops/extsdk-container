@@ -14,16 +14,16 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-# This is just a lightweight wrapper around usermod that prevents using 0 as
+# This is just a lightweight wrapper around useradd that prevents using 0 as
 # the uid.
 
 # "Force" the argument to be an integer, it should error if it isn't an int
 uid=$(($1))
 username=$2
 
-if [ $uid -eq 0 ]; then
-    echo "Refusing to use uid 0"
+if [ $uid -lt 0 ]; then
+    echo "Refusing to use a uid less than 100"
     exit 1
 else
-    usermod -o -u $uid "$username"
+    useradd -U -m -o -u $uid "$username"
 fi
