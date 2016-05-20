@@ -30,7 +30,7 @@ RUN userdel -r yoctouser && \
     useradd -U -m -u 70 usersetup && \
     apt-get -y install curl sudo && \
     echo "#include /etc/sudoers.usersetup" >> /etc/sudoers && \
-    chmod /usr/bin/usersetup.py \
+    chmod 755 /usr/bin/usersetup.py \
         /usr/bin/esdk-launch.py \
         /usr/bin/esdk-entry.py \
         /usr/bin/restrict_useradd.sh
