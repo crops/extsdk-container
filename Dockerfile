@@ -28,7 +28,7 @@ COPY sudoers.usersetup /etc
 # as the workspace. 70 is an arbitrary *low* unused uid on debian.
 RUN userdel -r yoctouser && \
     useradd -U -m -u 70 usersetup && \
-    apt-get -y install sudo && \
+    apt-get -y install curl sudo && \
     echo "#include /etc/sudoers.usersetup" >> /etc/sudoers && \
     chmod /usr/bin/usersetup.py \
         /usr/bin/esdk-launch.py \
