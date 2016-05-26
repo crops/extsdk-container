@@ -14,15 +14,15 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-# This is just a lightweight wrapper around useradd that prevents using 0 as
-# the uid.
+# This is just a lightweight wrapper around useradd that prevents using a uid
+# less than 101 as the uid.
 
 # "Force" the argument to be an integer, it should error if it isn't an int
 uid=$(($1))
 username=$2
 
-if [ $uid -lt 0 ]; then
-    echo "Refusing to use a uid less than 100"
+if [ $uid -lt 101 ]; then
+    echo "Refusing to use a uid less than 101"
     exit 1
 else
     useradd -U -m -o -u $uid "$username"
