@@ -21,7 +21,7 @@ FROM crops/yocto:debian-8-base
 USER root
 
 COPY usersetup.py esdk-launch.py esdk-entry.py restrict_useradd.sh /usr/bin/
-COPY sudoers.usersetup /etc
+COPY sudoers.usersetup /etc/
 
 # We remove the user because we add a new one of our own.
 # The usersetup user is solely for adding a new user that has the same uid,
