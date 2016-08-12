@@ -40,10 +40,10 @@ parser.add_argument("cmd", help="command to exec after setting up the user")
 parser.add_argument("args", default="", nargs=argparse.REMAINDER)
 
 args = parser.parse_args()
-st = os.stat(args.workdir)
 
 if not args.uid:
     # Use the owner of the workdir for the uid if the uid isn't specified
+    st = os.stat(args.workdir)
     args.uid = st.st_uid
 
 cmd = "sudo restrict_useradd.sh {} {}".format(args.uid, args.username)
