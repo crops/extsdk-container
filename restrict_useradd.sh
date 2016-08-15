@@ -19,11 +19,15 @@
 
 # "Force" the argument to be an integer, it should error if it isn't an int
 uid=$(($1))
-username=$2
+gid=$(($2))
+username=$3
 
 if [ $uid -lt 101 ]; then
     echo "Refusing to use a uid less than 101"
     exit 1
+elif [ $gid -lt 101 ]; then
+    echo "Refusing to use a gid less than 101"
+    exit 1
 else
-    useradd -U -m -o -u $uid "$username"
+    useradd -N -g $gid -m -o -u $uid "$username"
 fi

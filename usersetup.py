@@ -28,6 +28,10 @@ parser.add_argument("--uid", type=int,
                     help="uid to use for the user. If not specified, "
                          "the uid of the owner of WORKDIR is used")
 
+parser.add_argument("--gid", type=int,
+                    help="gid to use for the initial login group for the "
+                         "user. If not specified, the gid of WORKDIR is used")
+
 parser.add_argument("--username", default="genericuser",
                     help="username of the user to be modified")
 
@@ -46,8 +50,16 @@ if not args.uid:
     st = os.stat(args.workdir)
     args.uid = st.st_uid
 
-cmd = "sudo restrict_useradd.sh {} {}".format(args.uid, args.username)
+if not args.gid:
+    # Use the group of the workdir for the gid if the gid isn't specified
+    st = os.stat(args.workdir)
+    args.gid = st.st_gid
 
+cmd = "sudo restrict_groupadd.sh {} {}".format(args.gid, args.username)
+subprocess.check_call(cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
+
+cmd = "sudo restrict_useradd.sh {} {} {}".format(args.uid, args.gid,
+                                                 args.username)
 subprocess.check_call(cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
 
 usercmd = "{} {}".format(args.cmd, " ".join(args.args))

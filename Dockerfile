@@ -20,19 +20,26 @@ FROM crops/yocto:debian-8-base
 
 USER root
 
-COPY usersetup.py esdk-launch.py esdk-entry.py restrict_useradd.sh /usr/bin/
+COPY usersetup.py \
+         esdk-launch.py \
+         esdk-entry.py \
+         restrict_groupadd.sh \
+         restrict_useradd.sh \
+     /usr/bin/
 COPY sudoers.usersetup /etc/
 
 # We remove the user because we add a new one of our own.
 # The usersetup user is solely for adding a new user that has the same uid,
 # as the workspace. 70 is an arbitrary *low* unused uid on debian.
 RUN userdel -r yoctouser && \
-    useradd -U -m -u 70 usersetup && \
+    groupadd -g 70 usersetup && \
+    useradd -N -m -u 70 -g 70 usersetup && \
     apt-get -y install curl sudo && \
     echo "#include /etc/sudoers.usersetup" >> /etc/sudoers && \
     chmod 755 /usr/bin/usersetup.py \
         /usr/bin/esdk-launch.py \
         /usr/bin/esdk-entry.py \
+        /usr/bin/restrict_groupadd.sh \
         /usr/bin/restrict_useradd.sh
 
 USER usersetup
