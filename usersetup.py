@@ -64,5 +64,5 @@ subprocess.check_call(cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
 
 usercmd = "{} {}".format(args.cmd, " ".join(args.args))
 
-cmd = ("sudo -u {} ".format(args.username) + usercmd).split()
+cmd = ("sudo -H -u {} ".format(args.username) + usercmd).split()
 os.execvp(cmd[0], cmd)
