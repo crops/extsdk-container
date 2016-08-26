@@ -25,8 +25,8 @@ username=$3
 if [ $uid -lt 101 ]; then
     echo "Refusing to use a uid less than 101"
     exit 1
-elif [ $gid -lt 101 ]; then
-    echo "Refusing to use a gid less than 101"
+elif [ $gid -lt 100 ]; then
+    echo "Refusing to use a gid less than 100"
     exit 1
 else
     useradd -N -g $gid -m -o -u $uid "$username"
