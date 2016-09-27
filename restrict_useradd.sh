@@ -21,6 +21,9 @@
 uid=$(($1))
 gid=$(($2))
 username=$3
+if [ "$4" != "" ]; then
+    skelarg="-k $4"
+fi
 
 if [ $uid -lt 101 ]; then
     echo "Refusing to use a uid less than 101"
@@ -29,5 +32,5 @@ elif [ $gid -lt 100 ]; then
     echo "Refusing to use a gid less than 100"
     exit 1
 else
-    useradd -N -g $gid -m -o -u $uid "$username"
+    useradd -N -g $gid -m $skelarg -o -u $uid "$username"
 fi
