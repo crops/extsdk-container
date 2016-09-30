@@ -3,35 +3,46 @@ Extensible SDK Container
 This repo is to create an image that is able to setup and use an extensible
 sdk generated using openembedded-core.
 
+The instructions will be slightly different depending on whether Linux, Windows or Mac is used. There are setup instructions for using **Windows/Mac** at https://github.com/crops/docker-win-mac-docs/wiki. When referring to **Windows/Mac** in the rest of the document, it is assumed the instructions at https://github.com/crops/docker-win-mac-docs/wiki were followed.
+
 Running the container
 ---------------------
-* **Determine the workdir**
+* **Create workdir or volume**
+  * **Linux**
 
-  The workdir you create will be used for all output from the extensible sdk,
-  as well as where your workspace will be saved. You can either create a new
-  directory or use an existing one.
+    The workdir you create will be used for all output from the extensible sdk, as well as where your workspace will be saved. You can either create a new directory or use an existing one.
+    ```
+    mkdir -p /home/myuser/sdkstuff
+    ```
 
-  *It is important that you are the owner of the directory.* The owner of the
-  directory is what determines the user id used inside the container. If you
-  are not the owner of the directory, you may not have access to the files the
-  container creates.
+    *It is important that you are the owner of the directory.* The owner of the
+    directory is what determines the user id used inside the container. If you
+    are not the owner of the directory, you may not have access to the files the
+    container creates.
 
-  For the rest of the instructions we'll assume the workdir chosen was
-  `/home/myuser/workdir`.
+    For the rest of the Linux instructions we'll assume the workdir chosen was
+    `/home/myuser/sdkstuff`.
+    
+  * **Windows/Mac**
+
+    On Windows or Mac a workdir isn't needed. Instead the volume called *myvolume* will be used. This volume should have been created when following the instructions at https://github.com/crops/docker-win-mac-docs/wiki.
+
 
 * **The docker command**
+  * **Linux**
+    Assuming you used the *workdir* from above, the command
+    to run a container for the first time would be:
 
-  Assuming you used the *workdir* from above, the command
-  to run a container for the first time would be:
+    ```
+    docker run --rm -it -v /home/myuser/sdkstuff:/workdir crops/extsdk-container --url http://someserver/extensible_sdk_installer.sh
+    ```
+  * **Windows/Mac**
+ 
+    ```
+    docker run --rm -it -v myvolume:/workdir crops/extsdk-container --url http://someserver/extensible_sdk_installer.sh
+    ```
 
-  ```
-  docker run --rm -it -v /home/myuser/workdir:/workdir crops/extsdk-container \
-  --url http://someserver/extensible_sdk_installer.sh
-  ```
-  Let's discuss some of the options:
-  * **_-v /home/myuser/workdir:/workdir_**: The default location of the workdir
-    inside of the container is /workdir. So this part of the command says to
-    use */home/myuser/workdir* as */workdir* inside the container.
+  Let's discuss the options:
   * **_--url http://someserver/extensible_sdk_installer.sh_**: This is the
       url of the extensible sdk installer. It will automatically be downloaded
       and prepared to use inside of the workdir. Substitute in the url for
@@ -64,24 +75,20 @@ Running the container
   no longer need to specify the *--url* argument when starting the container.
 
   So the following command:
-  ```
-  docker run --rm -it -v /home/myuser/workdir:/workdir crops/extsdk-container
-  ```
+  * **Linux**
+  
+    ```
+    docker run --rm -it -v /home/myuser/sdkstuff:/workdir crops/extsdk-container
+    ```
+  * **Windows/Mac**
+
+    ```
+    docker run --rm -it -v myvolume:/workdir crops/extsdk-container
+    ```
+
   on a previously setup workdir, should generate output similar to:
   ```
   SDK environment now set up; additionally you may now run devtool to perform development tasks.
   Run devtool --help for further details.
   [genericuser@2e42fa87f96c workdir]$
   ```
-
-Building the container image
-----------------------------
-If for some reason you want to build your own image rather than using the one
-on dockerhub, then run the command below in the directory containing the
-Dockerfile:
-
-```
-docker build -t crops/extsdk-container .
-```
-
-The argument to `-t` can be whatever you choose.
