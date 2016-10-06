@@ -21,8 +21,8 @@
 gid=$(($1))
 groupname=$2
 
-if [ $gid -lt 101 ]; then
-    echo "Refusing to use a gid less than 101"
+if [ $gid -eq 0 ]; then
+    echo "Refusing to use a gid of 0"
     exit 1
 else
     groupadd -g $gid "$groupname"
