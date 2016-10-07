@@ -42,6 +42,8 @@ RUN userdel -r yoctouser && \
         /usr/bin/restrict_groupadd.sh \
         /usr/bin/restrict_useradd.sh
 
+RUN groupadd -o -g 1000 foo
+
 USER usersetup
 
 ENTRYPOINT ["esdk-entry.py"]

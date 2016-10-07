@@ -25,5 +25,5 @@ if [ $gid -eq 0 ]; then
     echo "Refusing to use a gid of 0"
     exit 1
 else
-    groupadd -g $gid "$groupname"
+    groupadd -o -g $gid "$groupname"
 fi
