@@ -28,8 +28,8 @@ fi
 if [ $uid -lt 101 ]; then
     echo "Refusing to use a uid less than 101"
     exit 1
-elif [ $gid -lt 100 ]; then
-    echo "Refusing to use a gid less than 100"
+elif [ $gid -eq 0 ]; then
+    echo "Refusing to use a gid of 0"
     exit 1
 else
     useradd -N -g $gid -m $skelarg -o -u $uid "$username"
