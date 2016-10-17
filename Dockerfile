@@ -43,5 +43,6 @@ RUN userdel -r yoctouser && \
         /usr/bin/restrict_useradd.sh
 
 USER usersetup
+ENV LANG=en_US.UTF-8
 
 ENTRYPOINT ["esdk-entry.py"]
