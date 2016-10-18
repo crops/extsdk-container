@@ -1,0 +1,13 @@
+#!/bin/bash
+# Fake groupadd just to make sure arguments are correct
+function fail() {
+    printf "\"$args\" is not the expected \n\"$expected_args\""
+    exit 1
+}
+
+args=$@
+expected_args="-o -g 1 testgroup"
+
+if [ "$args" != "$expected_args" ]; then
+    fail
+fi

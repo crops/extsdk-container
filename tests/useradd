@@ -1,0 +1,18 @@
+#!/bin/bash
+# Fake useradd just to make sure arguments are correct
+
+function fail() {
+    printf "\"$args\" is not the expected \n\"$expected_args\""
+    exit 1
+}
+
+if [ "" != "$SKELARG_USED" ]; then
+    skelargs="-k /myskel"
+fi
+
+args=$@
+expected_args="-N -g 1 -m $skelargs -o -u 101 testname"
+
+if [ "$args" != "$expected_args" ]; then
+    fail
+fi
