@@ -1,4 +1,6 @@
 sudo: required
+language: python
+python: "3.5"
 services:
   - docker
 
@@ -9,7 +11,11 @@ env:
     - secure: "rwsiFIJkRlvKj2lcWaOmoc5D1RgMKacUOSGxTibN1rleUmPiSdaaPaGXOhQivJ1ZSzwrtSZxThk0oFD6uhP+CuvszVMRQznlZoDoRTmTnGVAKcLNC67A1w4KE7KX8IBDWVRwxSbspMgvg0GqNW9SKKszNgJJRyN18FtW8xlFi8OYSx7jgrcsnDn0EYQlLHqImHdA+aW5a2PtZQ/+tJecQpRCflkJ3ShRLhZt7367M0t3eGZyBzfbrQdFV4bPs7mS4cvkqR68sRewX9S/3lBX4LdM5wB3m559tIRroHaGPk/TgMNFyo0Xh9l7uiQD6xZto/lJnLJ7e6Fnr4us7bHVC6K0qCIt34+gNczWup7XuqbBsAy6cSeNPqd2h2uNyXW/bGV/dwWPVOrbSw8ay9teFPuXHNIz59P6LDXnxh/JpwDkYzGu3cFn3K3eaH1XMdIhh5Waleyx1ZHpQUtc/Gze6L35HTlOwlokvRESGi+QjhWc/0CupVmF+yinBR8KY3/rGeZgoM+bP6f4OGb4UKf+uMHzFodQXayrAdLA3UUywVgHJTWkQ4Nllqfhr6Qc6kLhSRAh0EougD+VBZ6gQ+4fs4oA02FZqrnSzp77lCckc7gPvo5j8PCEtwnEOXaH0kKcOfzld6ExM/LkgXjVMl/gAxQV7p07aMcUmjRdpThRXiI="
     - secure: "KnU4WiN2+bFJYYJON7qU2F3vPMCgybuUwFi1Vupu1yPoANHMpa8J86J0/fZ2rRzm8vONVbTC6SDxyuQYCw3bx37N9hTWcgNyPmyz5gbOMGedYiJrBKjQAmdnXjNCvW4BlTVOrdwQZbKzXuqgKU8umVHoHgI/Am2Q/GbKkatKENKU/Dp6jvcxhNu2W5DKlceBD0SDtFNSdDGSM8bA4zD8SW1oe7SKV5VxtBRFTKe7vVJuXHuHwIpHc9z9F5EEAdc72NRNapNNmOEakd99XiFHuZ61rd+7/QY4vUDhrhxlCHqxT4F2rCG6Clt9gz66b0drI3Ha8AOzEvbqUiQSxjUf8Uz62vSRrOPuLejU//bqnqofvp5/io8BgXFQb6Maxu9AE69MOfEv45WoaMFKCi0Kl8EI2j+qZekPmc0838ye+9xZ5Q3ofcYM/bMlqluUjy+2NldWIz5agk+BtlTrTD48qBwFVVTPgmGPGx5ZXCv5c9PrJtKuQNTj6HfELKP1PxIasDHekdWk8LNY9QtZzq4yPzj22PGcVuXQ6UgQkR5b11g/QTBtJ2jRntU8SEnd7Th49RN5cdh6D8rorriYYGaRmnvukqVPsT1+cCnxWm29Y142G5vyhBkq+7jO/yTRfnOjO7JBZcJ4O8A+8J46f/b04fowafhpi3wJ3rEOoUjvcs8="
 
+before_install:
+  - pip install pytest
+
 script:
+  - pytest
   - docker build -t ${REPO} .
 
 after_success:
