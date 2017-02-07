@@ -119,3 +119,4 @@ try:
 
 except EsdkLaunchError as e:
     print e
+    sys.exit(1)
