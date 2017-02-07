@@ -45,4 +45,4 @@ RUN userdel -r yoctouser && \
 USER usersetup
 ENV LANG=en_US.UTF-8
 
-ENTRYPOINT ["esdk-entry.py"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/bin/esdk-entry.py"]
