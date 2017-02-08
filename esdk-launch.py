@@ -43,7 +43,6 @@ def download_esdk(url, dest):
 
 def setup_esdk(installer, dest):
     cmd = "{} -d {} -y".format(installer, dest).split()
-
     try:
         subprocess.check_call(cmd, stdout=sys.stdout, stderr=sys.stderr)
     except subprocess.CalledProcessError:
@@ -67,7 +66,7 @@ try:
 
     setupscript = glob.glob(os.path.join(args.workdir, "environment-setup-*"))
     esdkfound = setupscript and os.path.exists(os.path.join(args.workdir,
-                                                            ".devtoolbase"))
+                                                            "sysroots"))
 
     if esdkfound and args.url:
         errormsg = ('An extensible sdk was found in {} yet "--url" was also '
