@@ -65,7 +65,7 @@ def run_container(testimage, hostdir, name="", workdir="/workdir", url=""):
             time.sleep(.5)
             totaltime += .5
             log.seek(0)
-    
+
         if not found:
             remove_container(name)
             raise Exception("prompt not found in: {}".format(log.readlines()))
@@ -75,7 +75,7 @@ def run_container(testimage, hostdir, name="", workdir="/workdir", url=""):
 @pytest.fixture
 def fake_container(testimage, tmpdir):
     tmpdir.join('environment-setup-foo').write('')
-    tmpdir.join('.devtoolbase').write('')
+    tmpdir.join('sysroots').write('')
 
     name = str(uuid.uuid4())
 
