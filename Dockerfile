@@ -16,7 +16,7 @@
 #
 # ext sdk container
 #
-FROM crops/yocto:ubuntu-14.04-base
+FROM crops/yocto:ubuntu-16.04-base
 
 USER root
 
