@@ -25,8 +25,8 @@ if [ "$4" != "" ]; then
     skelarg="-k $4"
 fi
 
-if [ $uid -lt 101 ]; then
-    echo "Refusing to use a uid less than 101"
+if [ $uid -eq 0 ]; then
+    echo "Refusing to use a uid of 0 (root)"
     exit 1
 elif [ $gid -eq 0 ]; then
     echo "Refusing to use a gid of 0"

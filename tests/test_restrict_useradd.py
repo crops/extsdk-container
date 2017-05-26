@@ -12,14 +12,14 @@ def test_fail_gid():
     assert "Refusing to use a gid of 0" in result.stdout.decode()
 
 
-uids = [0, 100]
-@pytest.mark.parametrize("uid", uids)
-def test_fail_uid(uid):
-    cmd = shlex.split("./restrict_useradd.sh {} 0 somegroup".format(uid))
+# Changed restriction to only disallow root (0) due to
+# various win/mac hypervisor issues
+def test_fail_uid():
+    cmd = shlex.split("./restrict_useradd.sh {} 0 somegroup".format(0))
     result = subprocess.run(cmd, stdout=subprocess.PIPE, check=False)
 
     assert result.returncode != 0
-    assert "Refusing to use a uid less than 101" in result.stdout.decode()
+    assert "Refusing to use a uid of 0" in result.stdout.decode()
 
 
 useskelarg = [ True, False ]
@@ -38,7 +38,6 @@ def setup_env_and_cmd():
         cmd = cmd + " /myskel"
 
     yield shlex.split(cmd)
-    
     os.environ = oldenv
 
 
