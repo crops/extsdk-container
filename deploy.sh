@@ -21,7 +21,7 @@ set -e
 # Don't deploy on pull requests because it could just be junk code that won't
 # get merged
 if [ "${TRAVIS_PULL_REQUEST}" = "false" -a "${TRAVIS_BRANCH}" = "master" ]; then
-    docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     docker push ${REPO}
 else
     echo "Not pushing since build was triggered by a pull request."
