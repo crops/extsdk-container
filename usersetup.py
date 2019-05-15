@@ -21,6 +21,8 @@ import argparse
 import subprocess
 import os
 import sys
+import grp
+import pwd
 
 parser = argparse.ArgumentParser()
 
@@ -58,12 +60,19 @@ if not args.gid:
     st = os.stat(args.workdir)
     args.gid = st.st_gid
 
-cmd = "sudo restrict_groupadd.sh {} {}".format(args.gid, args.username)
-subprocess.check_call(cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
+# don't create group if exist in container
+try:
+    grp.getgrgid(args.gid)
+except KeyError:
+    cmd = "sudo restrict_groupadd.sh {} {}".format(args.gid, args.username)
+    subprocess.check_call(cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
 
-cmd = "sudo restrict_useradd.sh {} {} {} {}".format(args.uid, args.gid,
-                                                    args.username, args.skel)
-subprocess.check_call(cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
+try:
+    pwd.getpwuid(args.uid)
+except KeyError:    
+    cmd = "sudo restrict_useradd.sh {} {} {} {}".format(args.uid, args.gid,
+                                                        args.username, args.skel)
+    subprocess.check_call(cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
 
 usercmd = [ args.cmd ] + args.args
 
