@@ -31,6 +31,6 @@ if [ $uid -eq 0 ]; then
 elif [ $gid -eq 0 ]; then
     echo "Refusing to use a gid of 0"
     exit 1
-else
+elif [ ! $(getent passwd pokyuser) ]; then
     useradd -N -g $gid -m $skelarg -o -u $uid "$username"
 fi

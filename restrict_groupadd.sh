@@ -24,6 +24,6 @@ groupname=$2
 if [ $gid -eq 0 ]; then
     echo "Refusing to use a gid of 0"
     exit 1
-else
+elif [ ! $(getent group pokyuser) ]; then
     groupadd -o -g $gid "$groupname"
 fi
