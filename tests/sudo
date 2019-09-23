@@ -1,0 +1,31 @@
+#!/bin/bash
+# Fake sudo just to make sure arguments are correct
+
+function fail() {
+    printf '"%s",' "${args[@]}"
+    printf "\n is not the expected\n"
+    printf '"%s",' "${expected_args[@]}"
+    printf "\n"
+    exit 1
+}
+args=("$@")
+
+if [ "$1" = "restrict_groupadd.sh" ]; then
+    expected_args=("restrict_groupadd.sh" "15" "testuser")
+elif [ "$1" = "restrict_useradd.sh" ]; then
+    expected_args=("restrict_useradd.sh" "15" "15" "testuser")
+elif [ "$1" = "-E" ]; then
+    expected_args=("-E" "-H" "-u" "testuser" "somecmd" "firstarg"
+                   "this is arg2" "this is arg3" "arg4" "this is last arg")
+else
+    printf "Unexpected command \"$1\" passed to sudo\n"
+    exit 1
+fi
+
+for i in "${expected_args[@]}"; do
+    if [ "$i" != "$1" ]; then
+        fail
+    else
+        shift
+    fi
+done

@@ -65,8 +65,8 @@ cmd = "sudo restrict_useradd.sh {} {} {} {}".format(args.uid, args.gid,
                                                     args.username, args.skel)
 subprocess.check_call(cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
 
-usercmd = "{} {}".format(args.cmd, " ".join(args.args))
+usercmd = [ args.cmd ] + args.args
 
 cmd = "sudo -E -H -u {} ".format(args.username)
-cmd = (cmd + usercmd).split()
+cmd = cmd.split() + usercmd
 os.execvp(cmd[0], cmd)
