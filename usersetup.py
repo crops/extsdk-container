@@ -24,6 +24,19 @@ import sys
 import grp
 import pwd
 
+def sanity_check_workdir(workdir):
+    st = os.stat(workdir)
+    if st.st_uid == 0 or st.st_gid == 0:
+        print('The uid:gid for "{}" is "{}:{}". The uid and gid must be '
+               'non-zero. Please check to make sure the "volume" or "bind" '
+               'specified using either "-v" or "--mount" to docker, exists '
+               'and has a non-zero uid:gid.'.format(workdir, st.st_uid,
+                                                    st.st_gid))
+        return False
+
+    return True
+
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument("--uid", type=int,
@@ -54,11 +67,15 @@ if not args.uid:
     # Use the owner of the workdir for the uid if the uid isn't specified
     st = os.stat(args.workdir)
     args.uid = st.st_uid
+    if not sanity_check_workdir(args.workdir):
+        sys.exit(1)
 
 if not args.gid:
     # Use the group of the workdir for the gid if the gid isn't specified
     st = os.stat(args.workdir)
     args.gid = st.st_gid
+    if not sanity_check_workdir(args.workdir):
+        sys.exit(1)
 
 # don't create group if exist in container
 try:
