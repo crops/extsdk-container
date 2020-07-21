@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # esdk-launch.py
 #
@@ -34,7 +34,7 @@ def download_esdk(url, dest):
     cmd = "curl -# -o {} {}".format(dest, url).split()
 
     try:
-        print "Attempting to download {}".format(url)
+        print("Attempting to download {}".format(url))
         subprocess.check_call(cmd, stdout=sys.stdout, stderr=sys.stderr)
     except subprocess.CalledProcessError:
         errormsg = 'Unable to download "{}".'.format(args.url)
@@ -117,5 +117,5 @@ try:
     os.execvp(cmd[0], cmd + [args])
 
 except EsdkLaunchError as e:
-    print e
+    print(e)
     sys.exit(1)
