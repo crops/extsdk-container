@@ -34,6 +34,7 @@ COPY sudoers.usersetup /etc/
 RUN userdel -r yoctouser && \
     groupadd -g 70 usersetup && \
     useradd -N -m -u 70 -g 70 usersetup && \
+    apt-get update && \
     apt-get -y install curl sudo && \
     echo "#include /etc/sudoers.usersetup" >> /etc/sudoers && \
     chmod 755 /usr/bin/usersetup.py \
