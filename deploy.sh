@@ -21,7 +21,7 @@ set -e
 # Don't deploy on pull requests because it could just be junk code that won't
 # get merged
 if ([ "${GITHUB_EVENT_NAME}" = "push" ] || [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]) && [ "${GITHUB_REF}" = "refs/heads/master" ]; then
-    echo $DOCKER_PASSWORD | ${ENGINE_CMD} login -u $DOCKER_USERNAME --password-stdin
+    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
     docker push ${REPO}:latest
 else
     echo "Not pushing since build was triggered by a pull request."
