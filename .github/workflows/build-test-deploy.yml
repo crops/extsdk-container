@@ -12,7 +12,7 @@ jobs:
   build-test-deploy:
     runs-on: ubuntu-latest
     env:
-      REPO: crops/poky
+      REPO: crops/extsdk-container
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
