@@ -1,0 +1,34 @@
+name: poky-container build and test
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+  # Allow for manually running
+  workflow_dispatch:
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+    env:
+      REPO: crops/poky
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Build the image
+      - name: build
+        run: docker build -t ${REPO} .
+
+      # Test the image
+      - name: test
+        run: |
+          pip install pytest
+          pytest --testimage=$REPO
+
+      # Deploy the images
+      - name: deploy
+        run: bash deploy.sh
