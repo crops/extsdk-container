@@ -1,4 +1,4 @@
-name: poky-container build and test
+name: extsdk-container build and test
 on:
   push:
     branches:
