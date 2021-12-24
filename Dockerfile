@@ -16,7 +16,9 @@
 #
 # ext sdk container
 #
-FROM crops/yocto:ubuntu-16.04-base
+ARG BASE_DISTRO=ubuntu-20.04
+
+FROM crops/yocto:$BASE_DISTRO-base
 
 USER root
 
