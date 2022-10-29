@@ -26,17 +26,17 @@ def remove_container(name):
 
 def run_container(testimage, hostdir, name="", workdir="/workdir", url=""):
     print("{}, {}, {}, {}".format(testimage, hostdir, workdir, url))
-    if url is "":
+    if url == "":
         urlarg = ""
     else:
         urlarg = "--url {}".format(url)
 
-    if workdir is "":
+    if workdir == "":
         workdirarg = ""
     else:
         workdirarg = "--workdir {}".format(workdir)
 
-    if name is "":
+    if name == "":
         namearg = ""
     else:
         namearg = "--name {}".format(name)
