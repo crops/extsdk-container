@@ -56,10 +56,7 @@ parser.add_argument("--username", default="genericuser",
 parser.add_argument("--workdir", default="/workdir",
                     help="Directory to base the uid on")
 
-parser.add_argument("cmd", help="command to exec after setting up the user")
-
-# All positional arguments are passed to args.cmd when it is ran
-parser.add_argument("args", default="", nargs=argparse.REMAINDER)
+parser.add_argument("cmd", nargs=argparse.REMAINDER, help="command to exec after setting up the user")
 
 args = parser.parse_args()
 
@@ -94,5 +91,7 @@ except KeyError:
 usercmd = [ args.cmd ] + args.args
 
 cmd = "sudo -E -H -u {} ".format(args.username)
-cmd = cmd.split() + usercmd
+cmd = cmd.split()
+if args.cmd:
+    cmd.extend(args.cmd)
 os.execvp(cmd[0], cmd)
